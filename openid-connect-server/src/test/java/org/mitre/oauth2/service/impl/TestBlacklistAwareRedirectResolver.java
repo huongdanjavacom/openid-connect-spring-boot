@@ -16,7 +16,11 @@
 
 package org.mitre.oauth2.service.impl;
 
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.when;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -30,13 +34,6 @@ import org.springframework.security.oauth2.common.exceptions.InvalidRequestExcep
 import org.springframework.security.oauth2.provider.ClientDetails;
 
 import com.google.common.collect.ImmutableSet;
-
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-
-import static org.mockito.Mockito.when;
-
-import static org.junit.Assert.assertThat;
 
 /**
  * @author jricher
@@ -80,22 +77,11 @@ public class TestBlacklistAwareRedirectResolver {
 
 	@Test
 	public void testResolveRedirect_safe() {
-
 		// default uses prefix matching, the first one should work fine
 
 		String res1 = resolver.resolveRedirect(goodUri, client);
 
 		assertThat(res1, is(equalTo(goodUri)));
-		
-		// set the resolver to non-strict and test the path-based redirect resolution
-		
-		resolver.setStrictMatch(false);
-
-		String res2 = resolver.resolveRedirect(pathUri, client);
-
-		assertThat(res2, is(equalTo(pathUri)));
-
-
 	}
 
 	@Test(expected = InvalidRequestException.class)
@@ -126,11 +112,11 @@ public class TestBlacklistAwareRedirectResolver {
 
 		// set the resolver to non-strict match mode
 		resolver.setStrictMatch(false);
-		
+
 		// this is not an exact match (but that's OK)
 		boolean res1 = resolver.redirectMatches(pathUri, goodUri);
 
-		assertThat(res1, is(true));
+		assertThat(res1, is(false));
 
 		// this is an exact match
 		boolean res2 = resolver.redirectMatches(goodUri, goodUri);

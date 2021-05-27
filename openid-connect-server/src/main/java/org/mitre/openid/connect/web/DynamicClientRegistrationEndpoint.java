@@ -17,7 +17,45 @@
  *******************************************************************************/
 package org.mitre.openid.connect.web;
 
-import java.io.UnsupportedEncodingException;
+import static org.mitre.oauth2.model.RegisteredClientFields.APPLICATION_TYPE;
+import static org.mitre.oauth2.model.RegisteredClientFields.CLAIMS_REDIRECT_URIS;
+import static org.mitre.oauth2.model.RegisteredClientFields.CLIENT_ID;
+import static org.mitre.oauth2.model.RegisteredClientFields.CLIENT_ID_ISSUED_AT;
+import static org.mitre.oauth2.model.RegisteredClientFields.CLIENT_NAME;
+import static org.mitre.oauth2.model.RegisteredClientFields.CLIENT_SECRET;
+import static org.mitre.oauth2.model.RegisteredClientFields.CLIENT_SECRET_EXPIRES_AT;
+import static org.mitre.oauth2.model.RegisteredClientFields.CLIENT_URI;
+import static org.mitre.oauth2.model.RegisteredClientFields.CONTACTS;
+import static org.mitre.oauth2.model.RegisteredClientFields.DEFAULT_ACR_VALUES;
+import static org.mitre.oauth2.model.RegisteredClientFields.DEFAULT_MAX_AGE;
+import static org.mitre.oauth2.model.RegisteredClientFields.GRANT_TYPES;
+import static org.mitre.oauth2.model.RegisteredClientFields.ID_TOKEN_ENCRYPTED_RESPONSE_ALG;
+import static org.mitre.oauth2.model.RegisteredClientFields.ID_TOKEN_ENCRYPTED_RESPONSE_ENC;
+import static org.mitre.oauth2.model.RegisteredClientFields.ID_TOKEN_SIGNED_RESPONSE_ALG;
+import static org.mitre.oauth2.model.RegisteredClientFields.INITIATE_LOGIN_URI;
+import static org.mitre.oauth2.model.RegisteredClientFields.JWKS;
+import static org.mitre.oauth2.model.RegisteredClientFields.JWKS_URI;
+import static org.mitre.oauth2.model.RegisteredClientFields.LOGO_URI;
+import static org.mitre.oauth2.model.RegisteredClientFields.POLICY_URI;
+import static org.mitre.oauth2.model.RegisteredClientFields.POST_LOGOUT_REDIRECT_URIS;
+import static org.mitre.oauth2.model.RegisteredClientFields.REDIRECT_URIS;
+import static org.mitre.oauth2.model.RegisteredClientFields.REGISTRATION_ACCESS_TOKEN;
+import static org.mitre.oauth2.model.RegisteredClientFields.REGISTRATION_CLIENT_URI;
+import static org.mitre.oauth2.model.RegisteredClientFields.REQUEST_OBJECT_SIGNING_ALG;
+import static org.mitre.oauth2.model.RegisteredClientFields.REQUEST_URIS;
+import static org.mitre.oauth2.model.RegisteredClientFields.REQUIRE_AUTH_TIME;
+import static org.mitre.oauth2.model.RegisteredClientFields.RESPONSE_TYPES;
+import static org.mitre.oauth2.model.RegisteredClientFields.SCOPE;
+import static org.mitre.oauth2.model.RegisteredClientFields.SECTOR_IDENTIFIER_URI;
+import static org.mitre.oauth2.model.RegisteredClientFields.SOFTWARE_STATEMENT;
+import static org.mitre.oauth2.model.RegisteredClientFields.SUBJECT_TYPE;
+import static org.mitre.oauth2.model.RegisteredClientFields.TOKEN_ENDPOINT_AUTH_METHOD;
+import static org.mitre.oauth2.model.RegisteredClientFields.TOKEN_ENDPOINT_AUTH_SIGNING_ALG;
+import static org.mitre.oauth2.model.RegisteredClientFields.TOS_URI;
+import static org.mitre.oauth2.model.RegisteredClientFields.USERINFO_ENCRYPTED_RESPONSE_ALG;
+import static org.mitre.oauth2.model.RegisteredClientFields.USERINFO_ENCRYPTED_RESPONSE_ENC;
+import static org.mitre.oauth2.model.RegisteredClientFields.USERINFO_SIGNED_RESPONSE_ALG;
+
 import java.text.ParseException;
 import java.util.Date;
 import java.util.HashSet;
@@ -70,45 +108,6 @@ import com.nimbusds.jose.JWEAlgorithm;
 import com.nimbusds.jose.JWSAlgorithm;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jwt.JWTClaimsSet;
-
-import static org.mitre.oauth2.model.RegisteredClientFields.APPLICATION_TYPE;
-import static org.mitre.oauth2.model.RegisteredClientFields.CLAIMS_REDIRECT_URIS;
-import static org.mitre.oauth2.model.RegisteredClientFields.CLIENT_ID;
-import static org.mitre.oauth2.model.RegisteredClientFields.CLIENT_ID_ISSUED_AT;
-import static org.mitre.oauth2.model.RegisteredClientFields.CLIENT_NAME;
-import static org.mitre.oauth2.model.RegisteredClientFields.CLIENT_SECRET;
-import static org.mitre.oauth2.model.RegisteredClientFields.CLIENT_SECRET_EXPIRES_AT;
-import static org.mitre.oauth2.model.RegisteredClientFields.CLIENT_URI;
-import static org.mitre.oauth2.model.RegisteredClientFields.CONTACTS;
-import static org.mitre.oauth2.model.RegisteredClientFields.DEFAULT_ACR_VALUES;
-import static org.mitre.oauth2.model.RegisteredClientFields.DEFAULT_MAX_AGE;
-import static org.mitre.oauth2.model.RegisteredClientFields.GRANT_TYPES;
-import static org.mitre.oauth2.model.RegisteredClientFields.ID_TOKEN_ENCRYPTED_RESPONSE_ALG;
-import static org.mitre.oauth2.model.RegisteredClientFields.ID_TOKEN_ENCRYPTED_RESPONSE_ENC;
-import static org.mitre.oauth2.model.RegisteredClientFields.ID_TOKEN_SIGNED_RESPONSE_ALG;
-import static org.mitre.oauth2.model.RegisteredClientFields.INITIATE_LOGIN_URI;
-import static org.mitre.oauth2.model.RegisteredClientFields.JWKS;
-import static org.mitre.oauth2.model.RegisteredClientFields.JWKS_URI;
-import static org.mitre.oauth2.model.RegisteredClientFields.LOGO_URI;
-import static org.mitre.oauth2.model.RegisteredClientFields.POLICY_URI;
-import static org.mitre.oauth2.model.RegisteredClientFields.POST_LOGOUT_REDIRECT_URIS;
-import static org.mitre.oauth2.model.RegisteredClientFields.REDIRECT_URIS;
-import static org.mitre.oauth2.model.RegisteredClientFields.REGISTRATION_ACCESS_TOKEN;
-import static org.mitre.oauth2.model.RegisteredClientFields.REGISTRATION_CLIENT_URI;
-import static org.mitre.oauth2.model.RegisteredClientFields.REQUEST_OBJECT_SIGNING_ALG;
-import static org.mitre.oauth2.model.RegisteredClientFields.REQUEST_URIS;
-import static org.mitre.oauth2.model.RegisteredClientFields.REQUIRE_AUTH_TIME;
-import static org.mitre.oauth2.model.RegisteredClientFields.RESPONSE_TYPES;
-import static org.mitre.oauth2.model.RegisteredClientFields.SCOPE;
-import static org.mitre.oauth2.model.RegisteredClientFields.SECTOR_IDENTIFIER_URI;
-import static org.mitre.oauth2.model.RegisteredClientFields.SOFTWARE_STATEMENT;
-import static org.mitre.oauth2.model.RegisteredClientFields.SUBJECT_TYPE;
-import static org.mitre.oauth2.model.RegisteredClientFields.TOKEN_ENDPOINT_AUTH_METHOD;
-import static org.mitre.oauth2.model.RegisteredClientFields.TOKEN_ENDPOINT_AUTH_SIGNING_ALG;
-import static org.mitre.oauth2.model.RegisteredClientFields.TOS_URI;
-import static org.mitre.oauth2.model.RegisteredClientFields.USERINFO_ENCRYPTED_RESPONSE_ALG;
-import static org.mitre.oauth2.model.RegisteredClientFields.USERINFO_ENCRYPTED_RESPONSE_ENC;
-import static org.mitre.oauth2.model.RegisteredClientFields.USERINFO_SIGNED_RESPONSE_ALG;
 
 @Controller
 @RequestMapping(value = DynamicClientRegistrationEndpoint.URL)
@@ -246,10 +245,6 @@ public class DynamicClientRegistrationEndpoint {
 				m.addAttribute(HttpCodeView.CODE, HttpStatus.CREATED); // http 201
 
 				return ClientInformationResponseView.VIEWNAME;
-			} catch (UnsupportedEncodingException e) {
-				logger.error("Unsupported encoding", e);
-				m.addAttribute(HttpCodeView.CODE, HttpStatus.INTERNAL_SERVER_ERROR);
-				return HttpCodeView.VIEWNAME;
 			} catch (IllegalArgumentException e) {
 				logger.error("Couldn't save client", e);
 
@@ -283,22 +278,14 @@ public class DynamicClientRegistrationEndpoint {
 		ClientDetailsEntity client = clientService.loadClientByClientId(clientId);
 
 		if (client != null && client.getClientId().equals(auth.getOAuth2Request().getClientId())) {
+			OAuth2AccessTokenEntity token = rotateRegistrationTokenIfNecessary(auth, client);
+			RegisteredClient registered = new RegisteredClient(client, token.getValue(), config.getIssuer() + "register/" +  UriUtils.encodePathSegment(client.getClientId(), "UTF-8"));
 
-			try {
-				OAuth2AccessTokenEntity token = rotateRegistrationTokenIfNecessary(auth, client);
-				RegisteredClient registered = new RegisteredClient(client, token.getValue(), config.getIssuer() + "register/" +  UriUtils.encodePathSegment(client.getClientId(), "UTF-8"));
+			// send it all out to the view
+			m.addAttribute("client", registered);
+			m.addAttribute(HttpCodeView.CODE, HttpStatus.OK); // http 200
 
-				// send it all out to the view
-				m.addAttribute("client", registered);
-				m.addAttribute(HttpCodeView.CODE, HttpStatus.OK); // http 200
-
-				return ClientInformationResponseView.VIEWNAME;
-			} catch (UnsupportedEncodingException e) {
-				logger.error("Unsupported encoding", e);
-				m.addAttribute(HttpCodeView.CODE, HttpStatus.INTERNAL_SERVER_ERROR);
-				return HttpCodeView.VIEWNAME;
-			}
-
+			return ClientInformationResponseView.VIEWNAME;
 		} else {
 			// client mismatch
 			logger.error("readClientConfiguration failed, client ID mismatch: "
@@ -382,10 +369,6 @@ public class DynamicClientRegistrationEndpoint {
 				m.addAttribute(HttpCodeView.CODE, HttpStatus.OK); // http 200
 
 				return ClientInformationResponseView.VIEWNAME;
-			} catch (UnsupportedEncodingException e) {
-				logger.error("Unsupported encoding", e);
-				m.addAttribute(HttpCodeView.CODE, HttpStatus.INTERNAL_SERVER_ERROR);
-				return HttpCodeView.VIEWNAME;
 			} catch (IllegalArgumentException e) {
 				logger.error("Couldn't save client", e);
 
