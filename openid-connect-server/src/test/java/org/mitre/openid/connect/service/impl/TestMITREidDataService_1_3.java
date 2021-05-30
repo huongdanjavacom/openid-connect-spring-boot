@@ -21,10 +21,10 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
-import static org.mockito.Matchers.anyLong;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Matchers.isA;
-import static org.mockito.Matchers.isNull;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.isA;
+import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -277,7 +277,7 @@ public class TestMITREidDataService_1_3 {
 		when(mockedClient1.getClientId()).thenReturn("mocked_client_1");
 
 		AuthenticationHolderEntity mockedAuthHolder1 = mock(AuthenticationHolderEntity.class);
-		when(mockedAuthHolder1.getId()).thenReturn(1L);
+		// when(mockedAuthHolder1.getId()).thenReturn(1L);
 
 		OAuth2RefreshTokenEntity token1 = new OAuth2RefreshTokenEntity();
 		token1.setId(1L);
@@ -293,7 +293,7 @@ public class TestMITREidDataService_1_3 {
 		when(mockedClient2.getClientId()).thenReturn("mocked_client_2");
 
 		AuthenticationHolderEntity mockedAuthHolder2 = mock(AuthenticationHolderEntity.class);
-		when(mockedAuthHolder2.getId()).thenReturn(2L);
+		// when(mockedAuthHolder2.getId()).thenReturn(2L);
 
 		OAuth2RefreshTokenEntity token2 = new OAuth2RefreshTokenEntity();
 		token2.setId(2L);
@@ -357,7 +357,7 @@ public class TestMITREidDataService_1_3 {
 			@Override
 			public AuthenticationHolderEntity answer(InvocationOnMock invocation) throws Throwable {
 				AuthenticationHolderEntity _auth = mock(AuthenticationHolderEntity.class);
-				when(_auth.getId()).thenReturn(id);
+				// when(_auth.getId()).thenReturn(id);
 				id++;
 				return _auth;
 			}
@@ -527,7 +527,7 @@ public class TestMITREidDataService_1_3 {
 		when(mockedClient1.getClientId()).thenReturn("mocked_client_1");
 
 		AuthenticationHolderEntity mockedAuthHolder1 = mock(AuthenticationHolderEntity.class);
-		when(mockedAuthHolder1.getId()).thenReturn(1L);
+		// when(mockedAuthHolder1.getId()).thenReturn(1L);
 
 		OAuth2AccessTokenEntity token1 = new OAuth2AccessTokenEntity();
 		token1.setId(1L);
@@ -545,10 +545,10 @@ public class TestMITREidDataService_1_3 {
 		when(mockedClient2.getClientId()).thenReturn("mocked_client_2");
 
 		AuthenticationHolderEntity mockedAuthHolder2 = mock(AuthenticationHolderEntity.class);
-		when(mockedAuthHolder2.getId()).thenReturn(2L);
+		// when(mockedAuthHolder2.getId()).thenReturn(2L);
 
 		OAuth2RefreshTokenEntity mockRefreshToken2 = mock(OAuth2RefreshTokenEntity.class);
-		when(mockRefreshToken2.getId()).thenReturn(1L);
+		// when(mockRefreshToken2.getId()).thenReturn(1L);
 
 		OAuth2AccessTokenEntity token2 = new OAuth2AccessTokenEntity();
 		token2.setId(2L);
@@ -619,7 +619,7 @@ public class TestMITREidDataService_1_3 {
 			@Override
 			public AuthenticationHolderEntity answer(InvocationOnMock invocation) throws Throwable {
 				AuthenticationHolderEntity _auth = mock(AuthenticationHolderEntity.class);
-				when(_auth.getId()).thenReturn(id);
+				// when(_auth.getId()).thenReturn(id);
 				id++;
 				return _auth;
 			}
@@ -1106,13 +1106,13 @@ public class TestMITREidDataService_1_3 {
 				return _site;
 			}
 		});
-		when(wlSiteRepository.getById(anyLong())).thenAnswer(new Answer<WhitelistedSite>() {
-			@Override
-			public WhitelistedSite answer(InvocationOnMock invocation) throws Throwable {
-				Long _id = (Long) invocation.getArguments()[0];
-				return fakeDb.get(_id);
-			}
-		});
+//		when(wlSiteRepository.getById(anyLong())).thenAnswer(new Answer<WhitelistedSite>() {
+//			@Override
+//			public WhitelistedSite answer(InvocationOnMock invocation) throws Throwable {
+//				Long _id = (Long) invocation.getArguments()[0];
+//				return fakeDb.get(_id);
+//			}
+//		});
 
 		dataService.importData(reader);
 		verify(wlSiteRepository, times(3)).save(capturedWhitelistedSites.capture());
@@ -1132,7 +1132,7 @@ public class TestMITREidDataService_1_3 {
 		Date accessDate1 = formatter.parse("2014-09-10T23:49:44.090+00:00", Locale.ENGLISH);
 
 		OAuth2AccessTokenEntity mockToken1 = mock(OAuth2AccessTokenEntity.class);
-		when(mockToken1.getId()).thenReturn(1L);
+		// when(mockToken1.getId()).thenReturn(1L);
 
 		ApprovedSite site1 = new ApprovedSite();
 		site1.setId(1L);
@@ -1141,7 +1141,7 @@ public class TestMITREidDataService_1_3 {
 		site1.setAccessDate(accessDate1);
 		site1.setUserId("user1");
 		site1.setAllowedScopes(ImmutableSet.of("openid", "phone"));
-		when(mockToken1.getApprovedSite()).thenReturn(site1);
+		// when(mockToken1.getApprovedSite()).thenReturn(site1);
 
 		Date creationDate2 = formatter.parse("2014-09-11T18:49:44.090+00:00", Locale.ENGLISH);
 		Date accessDate2 = formatter.parse("2014-09-11T20:49:44.090+00:00", Locale.ENGLISH);
@@ -1247,7 +1247,7 @@ public class TestMITREidDataService_1_3 {
 		Date accessDate1 = formatter.parse("2014-09-10T23:49:44.090+00:00", Locale.ENGLISH);
 
 		OAuth2AccessTokenEntity mockToken1 = mock(OAuth2AccessTokenEntity.class);
-		when(mockToken1.getId()).thenReturn(1L);
+		// when(mockToken1.getId()).thenReturn(1L);
 
 		ApprovedSite site1 = new ApprovedSite();
 		site1.setId(1L);
@@ -1256,7 +1256,7 @@ public class TestMITREidDataService_1_3 {
 		site1.setAccessDate(accessDate1);
 		site1.setUserId("user1");
 		site1.setAllowedScopes(ImmutableSet.of("openid", "phone"));
-		when(mockToken1.getApprovedSite()).thenReturn(site1);
+		// when(mockToken1.getApprovedSite()).thenReturn(site1);
 
 		Date creationDate2 = formatter.parse("2014-09-11T18:49:44.090+00:00", Locale.ENGLISH);
 		Date accessDate2 = formatter.parse("2014-09-11T20:49:44.090+00:00", Locale.ENGLISH);
@@ -1315,21 +1315,21 @@ public class TestMITREidDataService_1_3 {
 				return fakeDb.get(_id);
 			}
 		});
-		when(wlSiteRepository.getById(isNull(Long.class))).thenAnswer(new Answer<WhitelistedSite>() {
-			Long id = 432L;
-			@Override
-			public WhitelistedSite answer(InvocationOnMock invocation) throws Throwable {
-				WhitelistedSite _site = mock(WhitelistedSite.class);
-				when(_site.getId()).thenReturn(id++);
-				return _site;
-			}
-		});
+//		when(wlSiteRepository.getById(isNull(Long.class))).thenAnswer(new Answer<WhitelistedSite>() {
+//			Long id = 432L;
+//			@Override
+//			public WhitelistedSite answer(InvocationOnMock invocation) throws Throwable {
+//				WhitelistedSite _site = mock(WhitelistedSite.class);
+//				when(_site.getId()).thenReturn(id++);
+//				return _site;
+//			}
+//		});
 		when(tokenRepository.getAccessTokenById(isNull(Long.class))).thenAnswer(new Answer<OAuth2AccessTokenEntity>() {
 			Long id = 245L;
 			@Override
 			public OAuth2AccessTokenEntity answer(InvocationOnMock invocation) throws Throwable {
 				OAuth2AccessTokenEntity _token = mock(OAuth2AccessTokenEntity.class);
-				when(_token.getId()).thenReturn(id++);
+				// when(_token.getId()).thenReturn(id++);
 				return _token;
 			}
 		});
@@ -1718,7 +1718,7 @@ public class TestMITREidDataService_1_3 {
 		Date expirationDate1 = formatter.parse(expiration1, Locale.ENGLISH);
 
 		ClientDetailsEntity mockedClient1 = mock(ClientDetailsEntity.class);
-		when(mockedClient1.getClientId()).thenReturn("mocked_client_1");
+		// when(mockedClient1.getClientId()).thenReturn("mocked_client_1");
 
 		OAuth2Request req1 = new OAuth2Request(new HashMap<String, String>(), "client1", new ArrayList<GrantedAuthority>(),
 				true, new HashSet<String>(), new HashSet<String>(), "http://foo.com",
@@ -1741,7 +1741,7 @@ public class TestMITREidDataService_1_3 {
 		Date expirationDate2 = formatter.parse(expiration2, Locale.ENGLISH);
 
 		ClientDetailsEntity mockedClient2 = mock(ClientDetailsEntity.class);
-		when(mockedClient2.getClientId()).thenReturn("mocked_client_2");
+		// when(mockedClient2.getClientId()).thenReturn("mocked_client_2");
 
 		OAuth2Request req2 = new OAuth2Request(new HashMap<String, String>(), "client2", new ArrayList<GrantedAuthority>(),
 				true, new HashSet<String>(), new HashSet<String>(), "http://bar.com",
@@ -1812,7 +1812,7 @@ public class TestMITREidDataService_1_3 {
 			public ClientDetailsEntity answer(InvocationOnMock invocation) throws Throwable {
 				String _clientId = (String) invocation.getArguments()[0];
 				ClientDetailsEntity _client = mock(ClientDetailsEntity.class);
-				when(_client.getClientId()).thenReturn(_clientId);
+				// when(_client.getClientId()).thenReturn(_clientId);
 				return _client;
 			}
 		});

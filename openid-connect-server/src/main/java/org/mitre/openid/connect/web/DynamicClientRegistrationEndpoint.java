@@ -107,6 +107,7 @@ import com.nimbusds.jose.EncryptionMethod;
 import com.nimbusds.jose.JWEAlgorithm;
 import com.nimbusds.jose.JWSAlgorithm;
 import com.nimbusds.jose.jwk.JWKSet;
+import com.nimbusds.jose.util.JSONObjectUtils;
 import com.nimbusds.jwt.JWTClaimsSet;
 
 @Controller
@@ -672,7 +673,8 @@ public class DynamicClientRegistrationEndpoint {
 								newClient.setJwksUri(claimSet.getStringClaim(claim));
 								break;
 							case JWKS:
-								newClient.setJwks(JWKSet.parse(claimSet.getJSONObjectClaim(claim).toJSONString()));
+							    String jsonString = JSONObjectUtils.toJSONString(claimSet.getJSONObjectClaim(claim));
+								newClient.setJwks(JWKSet.parse(jsonString));
 								break;
 							case POLICY_URI:
 								newClient.setPolicyUri(claimSet.getStringClaim(claim));

@@ -17,6 +17,11 @@
  *******************************************************************************/
 package org.mitre.openid.connect.client.service.impl;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.nullValue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,12 +32,6 @@ import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
-
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.nullValue;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
 
 /**
  * @author wkim
@@ -65,7 +64,7 @@ public class TestHybridClientConfigurationService {
 
 		Mockito.reset(mockDynamicService, mockStaticService);
 
-		Mockito.when(mockServerConfig.getIssuer()).thenReturn(issuer);
+		// Mockito.when(mockServerConfig.getIssuer()).thenReturn(issuer);
 
 	}
 
@@ -101,12 +100,12 @@ public class TestHybridClientConfigurationService {
 	public void getClientConfiguration_noIssuer() {
 
 		// The mockServerConfig is known to both services
-		Mockito.when(mockStaticService.getClientConfiguration(mockServerConfig)).thenReturn(mockClient);
-		Mockito.when(mockDynamicService.getClientConfiguration(mockServerConfig)).thenReturn(mockClient);
+		// Mockito.when(mockStaticService.getClientConfiguration(mockServerConfig)).thenReturn(mockClient);
+		// Mockito.when(mockDynamicService.getClientConfiguration(mockServerConfig)).thenReturn(mockClient);
 
 		// But oh noes! We're going to ask it to find us some other issuer
 		ServerConfiguration badIssuer = Mockito.mock(ServerConfiguration.class);
-		Mockito.when(badIssuer.getIssuer()).thenReturn("www.badexample.com");
+		// Mockito.when(badIssuer.getIssuer()).thenReturn("www.badexample.com");
 
 		RegisteredClient result = hybridService.getClientConfiguration(badIssuer);
 

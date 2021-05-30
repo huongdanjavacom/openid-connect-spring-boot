@@ -17,6 +17,9 @@
  *******************************************************************************/
 package org.mitre.openid.connect.service.impl;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
+
 import java.util.HashSet;
 import java.util.Map;
 
@@ -32,10 +35,6 @@ import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import com.google.common.collect.Sets;
-
-import static org.hamcrest.CoreMatchers.is;
-
-import static org.junit.Assert.assertThat;
 
 /**
  * @author wkim
@@ -103,10 +102,10 @@ public class TestDefaultStatsService {
 
 		Mockito.when(approvedSiteService.getAll()).thenReturn(Sets.newHashSet(ap1, ap2, ap3, ap4));
 
-		Mockito.when(client1.getId()).thenReturn(1L);
-		Mockito.when(client2.getId()).thenReturn(2L);
-		Mockito.when(client3.getId()).thenReturn(3L);
-		Mockito.when(client4.getId()).thenReturn(4L);
+		// Mockito.when(client1.getId()).thenReturn(1L);
+		// Mockito.when(client2.getId()).thenReturn(2L);
+		// Mockito.when(client3.getId()).thenReturn(3L);
+		// Mockito.when(client4.getId()).thenReturn(4L);
 
 		Mockito.when(approvedSiteService.getByClientId(clientId1)).thenReturn(Sets.newHashSet(ap1, ap2));
 		Mockito.when(approvedSiteService.getByClientId(clientId2)).thenReturn(Sets.newHashSet(ap3));

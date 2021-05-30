@@ -16,19 +16,14 @@
 
 package org.mitre.uma.service.impl;
 
-import static org.mockito.Matchers.any;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mitre.uma.model.ResourceSet;
 import org.mitre.uma.repository.ResourceSetRepository;
-import org.mockito.AdditionalAnswers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-
-import static org.mockito.Mockito.when;
 
 /**
  * @author jricher
@@ -49,7 +44,7 @@ public class TestDefaultResourceSetService {
 	@Before
 	public void setUp() throws Exception {
 
-		when(repository.save(any(ResourceSet.class))).then(AdditionalAnswers.returnsFirstArg());
+		// when(repository.save(any(ResourceSet.class))).then(AdditionalAnswers.returnsFirstArg());
 
 	}
 

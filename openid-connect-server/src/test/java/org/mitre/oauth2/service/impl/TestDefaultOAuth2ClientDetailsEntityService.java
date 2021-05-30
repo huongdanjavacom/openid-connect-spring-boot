@@ -17,6 +17,13 @@
  *******************************************************************************/
 package org.mitre.oauth2.service.impl;
 
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.CoreMatchers.nullValue;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
+
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -39,6 +46,7 @@ import org.mitre.openid.connect.service.WhitelistedSiteService;
 import org.mitre.uma.model.ResourceSet;
 import org.mitre.uma.service.ResourceSetService;
 import org.mockito.AdditionalAnswers;
+import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Matchers;
 import org.mockito.Mock;
@@ -49,14 +57,6 @@ import org.mockito.stubbing.Answer;
 import org.springframework.security.oauth2.common.exceptions.InvalidClientException;
 
 import com.google.common.collect.Sets;
-
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.hamcrest.CoreMatchers.nullValue;
-
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.fail;
 
 /**
  * @author wkim
@@ -107,7 +107,7 @@ public class TestDefaultOAuth2ClientDetailsEntityService {
 			}
 		});
 
-		Mockito.when(clientRepository.updateClient(Matchers.anyLong(), Matchers.any(ClientDetailsEntity.class))).thenAnswer(new Answer<ClientDetailsEntity>() {
+		Mockito.when(clientRepository.updateClient(ArgumentMatchers.anyLong(), ArgumentMatchers.any(ClientDetailsEntity.class))).thenAnswer(new Answer<ClientDetailsEntity>() {
 			@Override
 			public ClientDetailsEntity answer(InvocationOnMock invocation) throws Throwable {
 				Object[] args = invocation.getArguments();
@@ -335,6 +335,7 @@ public class TestDefaultOAuth2ClientDetailsEntityService {
 	public void updateClient_yesOfflineAccess() {
 
 		ClientDetailsEntity oldClient = new ClientDetailsEntity();
+		oldClient.setId(123L);
 		ClientDetailsEntity client = new ClientDetailsEntity();
 
 		Set<String> grantTypes = new HashSet<>();
@@ -352,6 +353,7 @@ public class TestDefaultOAuth2ClientDetailsEntityService {
 	public void updateClient_noOfflineAccess() {
 
 		ClientDetailsEntity oldClient = new ClientDetailsEntity();
+		oldClient.setId(123L);
 
 		oldClient.getScope().add(SystemScopeService.OFFLINE_ACCESS);
 

@@ -17,6 +17,27 @@
  *******************************************************************************/
 package org.mitre.oauth2.service.impl;
 
+import static com.google.common.collect.Sets.newHashSet;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.CoreMatchers.nullValue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+import static org.mockito.AdditionalAnswers.returnsFirstArg;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anySet;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.atLeastOnce;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.reset;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -48,27 +69,6 @@ import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.OAuth2Request;
 import org.springframework.security.oauth2.provider.TokenRequest;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
-
-import static com.google.common.collect.Sets.newHashSet;
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.not;
-import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.hamcrest.CoreMatchers.nullValue;
-import static org.mockito.AdditionalAnswers.returnsFirstArg;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anySet;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.atLeastOnce;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.reset;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 /**
  * @author wkim
@@ -147,7 +147,7 @@ public class TestDefaultOAuth2ProviderTokenService {
 		when(tokenRepository.getRefreshTokenByValue(refreshTokenValue)).thenReturn(refreshToken);
 		when(refreshToken.getClient()).thenReturn(client);
 		when(refreshToken.isExpired()).thenReturn(false);
-		
+
 		accessToken = Mockito.mock(OAuth2AccessTokenEntity.class);
 
 		tokenRequest = new TokenRequest(null, clientId, null, null);
@@ -191,7 +191,7 @@ public class TestDefaultOAuth2ProviderTokenService {
 
 		// we're not testing restricted or reserved scopes here, just pass through
 		when(scopeService.removeReservedScopes(anySet())).then(returnsFirstArg());
-		when(scopeService.removeRestrictedAndReservedScopes(anySet())).then(returnsFirstArg());
+		// when(scopeService.removeRestrictedAndReservedScopes(anySet())).then(returnsFirstArg());
 
 		when(tokenEnhancer.enhance(any(OAuth2AccessTokenEntity.class), any(OAuth2Authentication.class)))
 		.thenAnswer(new Answer<OAuth2AccessTokenEntity>(){
@@ -525,20 +525,20 @@ public class TestDefaultOAuth2ProviderTokenService {
 
 		assertTrue(token.getExpiration().after(lowerBoundAccessTokens) && token.getExpiration().before(upperBoundAccessTokens));
 	}
-	
+
 	@Test
 	public void getAllAccessTokensForUser(){
 		when(tokenRepository.getAccessTokensByUserName(userName)).thenReturn(newHashSet(accessToken));
-		
+
 		Set<OAuth2AccessTokenEntity> tokens = service.getAllAccessTokensForUser(userName);
 		assertEquals(1, tokens.size());
 		assertTrue(tokens.contains(accessToken));
 	}
-	
+
 	@Test
 	public void getAllRefreshTokensForUser(){
 		when(tokenRepository.getRefreshTokensByUserName(userName)).thenReturn(newHashSet(refreshToken));
-		
+
 		Set<OAuth2RefreshTokenEntity> tokens = service.getAllRefreshTokensForUser(userName);
 		assertEquals(1, tokens.size());
 		assertTrue(tokens.contains(refreshToken));
