@@ -6,8 +6,11 @@
 <!DOCTYPE html>
 <html lang="${pageContext.response.locale}">
 <head>
+	<c:set var="scheme" value="${pageContext.request.scheme}"/>
+	<c:set var="serverName" value="${pageContext.request.serverName}"/>
+	<c:set var="serverPort" value="${pageContext.request.serverPort}"/>
 
-    <base href="${config.issuer}">
+    <base href="${scheme}://${serverName}:${serverPort}">
 
     <meta charset="utf-8">
     <title>${config.topbarTitle} - ${title}</title>

@@ -21,36 +21,6 @@
 package org.mitre.openid.connect;
 
 
-import static org.mitre.util.JsonUtils.getAsArray;
-import static org.mitre.util.JsonUtils.getAsDate;
-import static org.mitre.util.JsonUtils.getAsJweAlgorithm;
-import static org.mitre.util.JsonUtils.getAsJweEncryptionMethod;
-import static org.mitre.util.JsonUtils.getAsJwsAlgorithm;
-import static org.mitre.util.JsonUtils.getAsPkceAlgorithm;
-import static org.mitre.util.JsonUtils.getAsString;
-import static org.mitre.util.JsonUtils.getAsStringSet;
-
-import java.text.ParseException;
-
-import org.mitre.oauth2.model.ClientDetailsEntity;
-import org.mitre.oauth2.model.ClientDetailsEntity.AppType;
-import org.mitre.oauth2.model.ClientDetailsEntity.AuthMethod;
-import org.mitre.oauth2.model.ClientDetailsEntity.SubjectType;
-import org.mitre.oauth2.model.RegisteredClient;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.google.common.base.Joiner;
-import com.google.common.base.Splitter;
-import com.google.common.base.Strings;
-import com.google.common.collect.Sets;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.nimbusds.jose.jwk.JWKSet;
-import com.nimbusds.jwt.JWT;
-import com.nimbusds.jwt.JWTParser;
-
 import static org.mitre.oauth2.model.RegisteredClientFields.APPLICATION_TYPE;
 import static org.mitre.oauth2.model.RegisteredClientFields.CLAIMS_REDIRECT_URIS;
 import static org.mitre.oauth2.model.RegisteredClientFields.CLIENT_ID;
@@ -93,6 +63,35 @@ import static org.mitre.oauth2.model.RegisteredClientFields.TOS_URI;
 import static org.mitre.oauth2.model.RegisteredClientFields.USERINFO_ENCRYPTED_RESPONSE_ALG;
 import static org.mitre.oauth2.model.RegisteredClientFields.USERINFO_ENCRYPTED_RESPONSE_ENC;
 import static org.mitre.oauth2.model.RegisteredClientFields.USERINFO_SIGNED_RESPONSE_ALG;
+import static org.mitre.util.JsonUtils.getAsArray;
+import static org.mitre.util.JsonUtils.getAsDate;
+import static org.mitre.util.JsonUtils.getAsJweAlgorithm;
+import static org.mitre.util.JsonUtils.getAsJweEncryptionMethod;
+import static org.mitre.util.JsonUtils.getAsJwsAlgorithm;
+import static org.mitre.util.JsonUtils.getAsPkceAlgorithm;
+import static org.mitre.util.JsonUtils.getAsString;
+import static org.mitre.util.JsonUtils.getAsStringSet;
+
+import java.text.ParseException;
+
+import org.mitre.oauth2.model.ClientDetailsEntity;
+import org.mitre.oauth2.model.ClientDetailsEntity.AppType;
+import org.mitre.oauth2.model.ClientDetailsEntity.AuthMethod;
+import org.mitre.oauth2.model.ClientDetailsEntity.SubjectType;
+import org.mitre.oauth2.model.RegisteredClient;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.google.common.base.Joiner;
+import com.google.common.base.Splitter;
+import com.google.common.base.Strings;
+import com.google.common.collect.Sets;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.nimbusds.jose.jwk.JWKSet;
+import com.nimbusds.jwt.JWT;
+import com.nimbusds.jwt.JWTParser;
 
 /**
  * Utility class to handle the parsing and serialization of ClientDetails objects.
@@ -104,8 +103,6 @@ public class ClientDetailsEntityJsonProcessor {
 
 	private static Logger logger = LoggerFactory.getLogger(ClientDetailsEntityJsonProcessor.class);
 
-	private static JsonParser parser = new JsonParser();
-
 	/**
 	 *
 	 * Create an unbound ClientDetailsEntity from the given JSON string.
@@ -114,7 +111,7 @@ public class ClientDetailsEntityJsonProcessor {
 	 * @return the entity if successful, null otherwise
 	 */
 	public static ClientDetailsEntity parse(String jsonString) {
-		JsonElement jsonEl = parser.parse(jsonString);
+		JsonElement jsonEl = JsonParser.parseString(jsonString);
 		return parse(jsonEl);
 	}
 
@@ -188,17 +185,13 @@ public class ClientDetailsEntityJsonProcessor {
 
 			c.setTokenEndpointAuthSigningAlg(getAsJwsAlgorithm(o, TOKEN_ENDPOINT_AUTH_SIGNING_ALG));
 
-			if (o.has(DEFAULT_MAX_AGE)) {
-				if (o.get(DEFAULT_MAX_AGE).isJsonPrimitive()) {
-					c.setDefaultMaxAge(o.get(DEFAULT_MAX_AGE).getAsInt());
-				}
-			}
+			if (o.has(DEFAULT_MAX_AGE) && o.get(DEFAULT_MAX_AGE).isJsonPrimitive()) {
+            	c.setDefaultMaxAge(o.get(DEFAULT_MAX_AGE).getAsInt());
+            }
 
-			if (o.has(REQUIRE_AUTH_TIME)) {
-				if (o.get(REQUIRE_AUTH_TIME).isJsonPrimitive()) {
-					c.setRequireAuthTime(o.get(REQUIRE_AUTH_TIME).getAsBoolean());
-				}
-			}
+			if (o.has(REQUIRE_AUTH_TIME) && o.get(REQUIRE_AUTH_TIME).isJsonPrimitive()) {
+            	c.setRequireAuthTime(o.get(REQUIRE_AUTH_TIME).getAsBoolean());
+            }
 
 			c.setDefaultACRvalues(getAsStringSet(o, DEFAULT_ACR_VALUES));
 			c.setInitiateLoginUri(getAsString(o, INITIATE_LOGIN_URI));
@@ -236,9 +229,8 @@ public class ClientDetailsEntityJsonProcessor {
 	 * Parse the JSON as a RegisteredClient (useful in the dynamic client filter)
 	 */
 	public static RegisteredClient parseRegistered(String jsonString) {
+		JsonElement jsonEl = JsonParser.parseString(jsonString);
 
-
-		JsonElement jsonEl = parser.parse(jsonString);
 		return parseRegistered(jsonEl);
 	}
 
@@ -322,7 +314,7 @@ public class ClientDetailsEntityJsonProcessor {
 			// get the JWKS sub-object
 			if (c.getJwks() != null) {
 				// We have to re-parse it into GSON because Nimbus uses a different parser
-				JsonElement jwks = parser.parse(c.getJwks().toString());
+				JsonElement jwks = JsonParser.parseString(c.getJwks().toString());
 				o.add(JWKS, jwks);
 			} else {
 				o.add(JWKS, null);

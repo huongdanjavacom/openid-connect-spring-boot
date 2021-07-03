@@ -512,12 +512,9 @@ public class DefaultUserInfo implements UserInfo {
 			ui.getAddress().setRegion(nullSafeGetString(addr, "region"));
 			ui.getAddress().setPostalCode(nullSafeGetString(addr, "postal_code"));
 			ui.getAddress().setCountry(nullSafeGetString(addr, "country"));
-
 		}
 
-
 		return ui;
-
 	}
 	/**
 	 * @return the jsonString
@@ -754,8 +751,7 @@ public class DefaultUserInfo implements UserInfo {
 		in.defaultReadObject();
 		Object o = in.readObject();
 		if (o != null) {
-			JsonParser parser = new JsonParser();
-			src = parser.parse((String)o).getAsJsonObject();
+			src = JsonParser.parseString((String)o).getAsJsonObject();
 		}
 	}
 
