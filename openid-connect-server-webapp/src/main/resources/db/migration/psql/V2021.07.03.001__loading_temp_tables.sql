@@ -10,7 +10,7 @@ CREATE TEMPORARY TABLE IF NOT EXISTS authorities_TEMP (
       
 CREATE TEMPORARY TABLE IF NOT EXISTS users_TEMP (
       username varchar(50) not null primary key,
-      password varchar(50) not null,
+      password varchar(200) not null,
       enabled boolean not null);
 
 CREATE TEMPORARY TABLE IF NOT EXISTS user_info_TEMP (

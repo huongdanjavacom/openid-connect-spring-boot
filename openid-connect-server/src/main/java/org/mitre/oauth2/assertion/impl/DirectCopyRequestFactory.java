@@ -24,6 +24,7 @@ import org.springframework.security.oauth2.common.util.OAuth2Utils;
 import org.springframework.security.oauth2.provider.ClientDetails;
 import org.springframework.security.oauth2.provider.OAuth2Request;
 import org.springframework.security.oauth2.provider.TokenRequest;
+import org.springframework.stereotype.Component;
 
 import com.google.common.collect.Sets;
 import com.nimbusds.jwt.JWT;
@@ -38,6 +39,7 @@ import com.nimbusds.jwt.JWTClaimsSet;
  * @author jricher
  *
  */
+@Component
 public class DirectCopyRequestFactory implements AssertionOAuth2RequestFactory {
 
 	/* (non-Javadoc)

@@ -20,7 +20,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>org.mitre</groupId>
+		<groupId>com.huongdanjava</groupId>
 		<artifactId>openid-connect-parent</artifactId>
 		<version>${global.version}</version>
 		<relativePath>..</relativePath>
@@ -32,11 +32,11 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>org.mitre</groupId>
+			<groupId>com.huongdanjava</groupId>
 			<artifactId>openid-connect-server</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.mitre</groupId>
+			<groupId>com.huongdanjava</groupId>
 			<artifactId>openid-connect-client</artifactId>
 		</dependency>
 	</dependencies>

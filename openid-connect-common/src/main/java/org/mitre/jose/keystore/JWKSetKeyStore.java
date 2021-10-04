@@ -38,7 +38,9 @@ import com.nimbusds.jose.jwk.JWKSet;
  */
 public class JWKSetKeyStore {
 
-	private JWKSet jwkSet;
+	public static final String KEY_ID = "OPENID_CONNECT";
+
+    private JWKSet jwkSet;
 
 	private Resource location;
 

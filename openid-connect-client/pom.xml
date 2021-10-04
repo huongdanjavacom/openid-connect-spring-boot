@@ -20,26 +20,26 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	
+
 	<parent>
+		<groupId>com.huongdanjava</groupId>
 		<artifactId>openid-connect-parent</artifactId>
-		<groupId>org.mitre</groupId>
 		<version>${global.version}</version>
 		<relativePath>..</relativePath>
 	</parent>
-	
+
 	<artifactId>openid-connect-client</artifactId>
 	<description>OpenID Connect Client filter for Spring Security</description>
 	<name>OpenID Connect Client</name>
 	<packaging>jar</packaging>
-	
+
 	<dependencies>
 		<dependency>
-			<groupId>org.mitre</groupId>
+			<groupId>com.huongdanjava</groupId>
 			<artifactId>openid-connect-common</artifactId>
 		</dependency>
 	</dependencies>
-	
+
 	<build>
 		<plugins>
 			<!-- BUILD SOURCE FILES -->

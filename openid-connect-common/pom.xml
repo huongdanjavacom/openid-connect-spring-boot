@@ -22,8 +22,8 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
+		<groupId>com.huongdanjava</groupId>
 		<artifactId>openid-connect-parent</artifactId>
-		<groupId>org.mitre</groupId>
 		<version>${global.version}</version>
 		<relativePath>..</relativePath>
 	</parent>

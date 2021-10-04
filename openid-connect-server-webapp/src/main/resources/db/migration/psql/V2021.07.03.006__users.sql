@@ -11,8 +11,8 @@ START TRANSACTION;
 -- 
 
 INSERT INTO users_TEMP (username, password, enabled) VALUES
-  ('admin','password',true),
-  ('user','password',true);
+  ('admin','$2a$10$jTXiHW/glBhTKi87wwm/b.r2HiAu9MU/264HalvNH9ugApbq.S12K',true),
+  ('user','$2a$10$jTXiHW/glBhTKi87wwm/b.r2HiAu9MU/264HalvNH9ugApbq.S12K',true);
 
 
 INSERT INTO authorities_TEMP (username, authority) VALUES

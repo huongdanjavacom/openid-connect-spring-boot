@@ -25,6 +25,7 @@ import javax.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.BeanCreationException;
+import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import com.google.common.collect.Lists;
@@ -40,6 +41,7 @@ import com.google.gson.Gson;
  * @author AANGANES
  *
  */
+@Component
 public class ConfigurationPropertiesBean {
 
 	/**
@@ -68,7 +70,7 @@ public class ConfigurationPropertiesBean {
 	private boolean dualClient = false;
 
 	private boolean heartMode = false;
-	
+
 	private boolean allowCompleteDeviceCodeUri = false;
 
 	public ConfigurationPropertiesBean() {

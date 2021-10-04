@@ -27,5 +27,6 @@ The authors and key contributors of the project include:
 * [William Kim](https://github.com/wikkim)
 * [Mark Janssen](https://github.com/praseodym)
 
+Migrated to Spring Boot by [Huong Dan Java](https://huongdanjava.com/).
 
 Licensed under the Apache 2.0 license, for details see `LICENSE.txt`. 

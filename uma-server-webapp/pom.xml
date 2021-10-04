@@ -20,13 +20,12 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>org.mitre</groupId>
+		<groupId>com.huongdanjava</groupId>
 		<artifactId>openid-connect-parent</artifactId>
 		<version>${global.version}</version>
 		<relativePath>..</relativePath>
 	</parent>
 
-	<groupId>com.huongdanjava</groupId>
 	<artifactId>uma-server-webapp</artifactId>
 	<packaging>war</packaging>
 	<name>UMA Server Webapp</name>
@@ -42,8 +41,8 @@
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.flywaydb</groupId>
-			<artifactId>flyway-core</artifactId>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
 		</dependency>
 
 		<dependency>
@@ -54,25 +53,20 @@
 		
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-tomcat</artifactId>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
 
 		<dependency>
-			<groupId>org.mitre</groupId>
+			<groupId>com.huongdanjava</groupId>
 			<artifactId>openid-connect-server</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.mitre</groupId>
+			<groupId>com.huongdanjava</groupId>
 			<artifactId>uma-server</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.mitre</groupId>
+			<groupId>com.huongdanjava</groupId>
 			<artifactId>openid-connect-client</artifactId>
 		</dependency>
 		
