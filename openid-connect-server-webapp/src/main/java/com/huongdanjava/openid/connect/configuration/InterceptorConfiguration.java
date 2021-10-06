@@ -10,6 +10,7 @@ import org.mitre.openid.connect.web.DynamicClientRegistrationEndpoint;
 import org.mitre.openid.connect.web.JWKSetPublishingEndpoint;
 import org.mitre.openid.connect.web.ProtectedResourceRegistrationEndpoint;
 import org.mitre.openid.connect.web.RootController;
+import org.mitre.openid.connect.web.ServerConfigInterceptor;
 import org.mitre.openid.connect.web.UserInfoEndpoint;
 import org.mitre.openid.connect.web.UserInfoInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class InterceptorConfiguration implements WebMvcConfigurer {
 
   @Autowired
-  public UserInfoInterceptor userInfoInterceptor;
+  private UserInfoInterceptor userInfoInterceptor;
+
+  @Autowired
+  private ServerConfigInterceptor serverConfigInterceptor;
 
   @Override
   public void addInterceptors(InterceptorRegistry registry) {
@@ -40,6 +44,12 @@ public class InterceptorConfiguration implements WebMvcConfigurer {
 
     // @formatter:off
     registry.addInterceptor(userInfoInterceptor)
+        .addPathPatterns("/**")
+        .excludePathPatterns(excludePathPatterns);
+    // @formatter:on
+
+    // @formatter:off
+    registry.addInterceptor(serverConfigInterceptor)
         .addPathPatterns("/**")
         .excludePathPatterns(excludePathPatterns);
     // @formatter:on

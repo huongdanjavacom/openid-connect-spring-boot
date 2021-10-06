@@ -19,6 +19,8 @@ import org.mitre.jwt.encryption.service.impl.DefaultJWTEncryptionAndDecryptionSe
 import org.mitre.jwt.signer.service.impl.DefaultJWTSigningAndValidationService;
 import org.mitre.openid.connect.assertion.JWTBearerAuthenticationProvider;
 import org.mitre.openid.connect.assertion.JWTBearerClientAssertionTokenEndpointFilter;
+import org.mitre.openid.connect.config.ConfigurationPropertiesBean;
+import org.mitre.openid.connect.config.UIConfiguration;
 import org.mitre.openid.connect.filter.MultiUrlRequestMatcher;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -38,6 +40,7 @@ import org.springframework.security.oauth2.provider.error.WebResponseExceptionTr
 import org.springframework.transaction.TransactionManager;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
+import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import com.nimbusds.jose.JOSEException;
 import com.nimbusds.jose.JWEAlgorithm;
 import com.nimbusds.jose.JWSAlgorithm;
@@ -46,6 +49,7 @@ import com.nimbusds.jose.JWSAlgorithm;
 @SpringBootApplication(scanBasePackages = {"org.mitre", "com.huongdanjava"})
 public class OpenIdConnectApplication {
 
+  @SuppressWarnings("resource")
   public static void main(String[] args) {
     SpringApplication.run(OpenIdConnectApplication.class, args);
   }
@@ -131,6 +135,7 @@ public class OpenIdConnectApplication {
     return new WhitelistedIssuerAssertionValidator();
   }
 
+  @SuppressWarnings("rawtypes")
   @Bean
   public WebResponseExceptionTranslator webResponseExceptionTranslator() {
     return new DefaultWebResponseExceptionTranslator();
@@ -170,6 +175,14 @@ public class OpenIdConnectApplication {
   }
 
   @Bean
+  public LocaleChangeInterceptor localeChangeInterceptor() {
+    LocaleChangeInterceptor lci = new LocaleChangeInterceptor();
+    lci.setParamName("lang");
+
+    return lci;
+  }
+
+  @Bean
   public MessageSource messageSource() {
     ReloadableResourceBundleMessageSource messageSource =
         new ReloadableResourceBundleMessageSource();
@@ -188,5 +201,32 @@ public class OpenIdConnectApplication {
         new ProviderManager(Arrays.asList(jwtBearerAuthenticationProvider)));
 
     return jwtbcatef;
+  }
+
+  @Bean
+  public ConfigurationPropertiesBean configurationPropertiesBean() {
+    ConfigurationPropertiesBean configurationPropertiesBean = new ConfigurationPropertiesBean();
+    configurationPropertiesBean.setTopbarTitle("OpenID Connect Server");
+
+    return configurationPropertiesBean;
+  }
+
+  @Bean
+  public UIConfiguration uiConfiguration() {
+    UIConfiguration uiConfiguration = new UIConfiguration();
+
+    Set<String> jsFiles = new HashSet<>();
+    jsFiles.add("resources/js/client.js");
+    jsFiles.add("resources/js/grant.js");
+    jsFiles.add("resources/js/scope.js");
+    jsFiles.add("resources/js/whitelist.js");
+    jsFiles.add("resources/js/dynreg.js");
+    jsFiles.add("resources/js/rsreg.js");
+    jsFiles.add("resources/js/token.js");
+    jsFiles.add("resources/js/blacklist.js");
+    jsFiles.add("resources/js/profile.js");
+    uiConfiguration.setJsFiles(jsFiles);
+
+    return uiConfiguration;
   }
 }

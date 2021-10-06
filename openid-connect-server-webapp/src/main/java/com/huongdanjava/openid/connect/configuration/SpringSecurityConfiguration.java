@@ -2,7 +2,6 @@ package com.huongdanjava.openid.connect.configuration;
 
 import javax.sql.DataSource;
 import org.mitre.oauth2.web.CorsFilter;
-import org.mitre.openid.connect.assertion.JWTBearerAuthenticationProvider;
 import org.mitre.openid.connect.assertion.JWTBearerClientAssertionTokenEndpointFilter;
 import org.mitre.openid.connect.filter.AuthorizationRequestFilter;
 import org.mitre.openid.connect.filter.MultiUrlRequestMatcher;
@@ -57,9 +56,6 @@ public class SpringSecurityConfiguration {
 
     @Autowired
     private MultiUrlRequestMatcher multiUrlRequestMatcher;
-
-    @Autowired
-    private JWTBearerAuthenticationProvider jwtBearerAuthenticationProvider;
 
     @Autowired
     private OAuth2AccessDeniedHandler oauth2AccessDeniedHandler;

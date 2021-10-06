@@ -3,17 +3,15 @@
  *
  * Portions copyright 2011-2013 The MITRE Corporation
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  *******************************************************************************/
 /**
  *
@@ -22,33 +20,45 @@ package org.mitre.openid.connect.web;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.mitre.openid.connect.config.ConfigurationPropertiesBean;
 import org.mitre.openid.connect.config.UIConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
+import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.AsyncHandlerInterceptor;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 /**
  *
- * Injects the server configuration bean into the request context.
- * This allows JSPs and the like to call "config.logoUrl" among others.
+ * Injects the server configuration bean into the request context. This allows JSPs and the like to
+ * call "config.logoUrl" among others.
  *
  * @author jricher
  *
  */
-public class ServerConfigInterceptor extends HandlerInterceptorAdapter {
+@Component
+public class ServerConfigInterceptor implements AsyncHandlerInterceptor {
 
-	@Autowired
-	private ConfigurationPropertiesBean config;
+  @Autowired
+  private ConfigurationPropertiesBean config;
 
-	@Autowired
-	private UIConfiguration ui;
+  @Autowired
+  private UIConfiguration ui;
 
-	@Override
-	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-		request.setAttribute("config", config);
-		request.setAttribute("ui", ui);
-		return true;
-	}
+  @Override
+  public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
+      throws Exception {
+    // @formatter:off
+    String baseUrl = ServletUriComponentsBuilder.fromRequestUri(request)
+        .replacePath(null)
+        .build()
+        .toUriString();
+    // @formatter:on
+    config.setIssuer(baseUrl);
+    request.setAttribute("config", config);
+
+    request.setAttribute("ui", ui);
+
+    return true;
+  }
 
 }
